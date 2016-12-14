@@ -1,0 +1,86 @@
+stmt_seq: stmt stmt_seq | eps
+stmt: var = exp;
+	|print exp;
+	|if (exp) stmt
+	|{stmt_seq}
+	|while(exp)stmt 
+
+exp: num | var | e+e | e-e| e<e | e>e |e==e| ,
+
+capire perchè <> non è lalr?
+vedi slide con <= e <<
+
+stmseq: stmt stmseq
+riempie tutto lo stack perche shifta fino a ultima reduce
+
+è meglio usare stmseq e stm così riduce man mano
+
+con union definisco elenco di tipi da assegnare ai vari token 
+così li possi tipizzare 
+
+la union viene usata come yystype e si arrangia lui ad usarla quando serve
+
+quando trova intero in lexer lo mette in ivalue
+estratto poi da yacc in fase di lettura valore
+dentro $1 ci sarà il valore dell'intero che abbiamo appena trovato
+la gramm è quella di prima 
+
+quando si chiude funz viene riconosciuta tutta e esegue $2 
+poi esegue con ex
+esegue tutto albero e stampa 0 1 2 (caso while)
+poi dealloca zone di memoria usate
+stmt sono quelli di prima
+
+opr torna pt a nodo con num di operatori
+opr gestisce stmt 
+id gestisce variabili
+poi con gestisce costanti
+
+
+parser trova stmt e nel riorganizzarli si creano i nodi 
+5+4-2 p.e.
+come riduce? 
+e+e e fai il tree
+
+yacc costruisce albero
+
+a-a fa 0 in ascii in array di simboli sta in pos zero
+nella func che riconosce id 
+il nodo è di tipo id e il suo valore è quello letto
+
+nodeType *opr(int oper, int nops, ...){
+2 param in ingresso + altri opzionali
+quando ho if
+in yacc i token sono interi
+match if e faccio l'op assegnata
+gli do num arg aspettati + lista di altri
+saranno pt a nodi che collegherò
+
+quando parser legge una dichiaraz tipo int [4][3] pippo
+legge dich tipo e poi legge num 
+deve tenere in memo ciò che ha letto rispetto al tipo
++ info su spazio memo da occupare
+
+bool t 
+devo sapere che t è bool
+se scrivo t=54 deve accorgersi che non lo può fare
+nei nodi ci scrivo info necessaria così la recupero dopo quando mi serve
+
+id viene passata in input a ex (o a eval)
+id x
+x-'a' 
+nel ultmo nodo 0
+     =
+  idx  0   
+il nodo è una costante?
+un numero no. var? stm? no
+while?
+if no. 
+è un = vado nel case a vedere cosa fa 
+0 è un nodo con id quindi in pos 24 in sym p.e. 
+
+e poi cade nei casi base ch esono costante e variabile 
+
+
+
+
